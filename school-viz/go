@@ -1,0 +1,6 @@
+#! /usr/bin/env bash
+cd /root/nupic-history-server
+nohup python2.7 webserver.py 8080 &
+cd /root/htm-school-viz 
+npm start
+

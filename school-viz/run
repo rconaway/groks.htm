@@ -1,0 +1,3 @@
+docker run -d -p8001:8001 -it school-viz
+
+

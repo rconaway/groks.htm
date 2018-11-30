@@ -1,0 +1,61 @@
+const SDR_LENGTH: usize = 21;
+const INPUT_LENGTH: usize = 819;
+
+type SDR = [usize; SDR_LENGTH];
+type INPUT = [usize; INPUT_LENGTH];
+
+pub struct Column {
+    sdr: SDR,
+    input: INPUT,
+    result: [usize; SDR_LENGTH],
+}
+
+fn main() {
+    let mut columns: [Column; 1024] = unsafe {std::mem::uninitialized()};
+    for i in 0 .. 1024 {
+        let mut c = &mut columns[i];
+        for s in 0..SDR_LENGTH {
+            c.sdr[s] = INPUT_LENGTH - s;
+        }
+        for x in 0..INPUT_LENGTH {
+            c.input[x] = INPUT_LENGTH - x;
+        }
+        intersection(c);
+    }
+
+    for i in 0..1024 {
+        report(&columns[i]);
+    }
+
+    0;
+}
+
+fn intersection(c: &mut Column) {
+    c.input.sort();
+    c.sdr.sort();
+
+    let mut i = 0;
+    let mut s = 0;
+    let mut r = 0;
+
+    while i < INPUT_LENGTH && s < SDR_LENGTH {
+        if c.input[i] < c.sdr[s] {
+            i += 1;
+        } else if c.input[i] > c.sdr[s] {
+            s += 1;
+        } else {
+            c.result[r] = c.input[i];
+            i += 1;
+            s += 1;
+            r += 1;
+        }
+    }
+
+}
+
+
+fn report(c: &Column) {
+    println!("The intersection has {} elements:", c.result.len());
+    c.result.iter().for_each(|c| { print!(" {}", c); });
+    println!();
+}

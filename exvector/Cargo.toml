@@ -1,0 +1,11 @@
+[package]
+name = "exvector"
+version = "0.1.0"
+authors = ["Rob Conaway <rconaway@pillartechnology.com>"]
+edition = "2018"
+
+[dependencies]
+arrayvec = "0.4.8"
+
+[profile.dev]
+opt-level = 3
